@@ -3,6 +3,9 @@ const app = express();
 
 const port = 3001;
 const mysql = require("mysql2");
+const cors = require("cors");
+app.use(cors());
+app.use(express.static("public"));
 
 // create the connection to database
 const connection = mysql.createConnection({
@@ -30,18 +33,17 @@ const connection = mysql.createConnection({
 // );
 
 // respond with "hello world" when a GET request is made to the homepage
-app.get("/", (req, res) => {
-  res.send("ok");
-});
 
-app.get("/resources", (req, res) => {
-  connection.query(
-    "SELECT * FROM `resources`",
-    function (err, results, fields) {
-      res.send(results);
-    }
-  );
-});
+// app.get("/resources", (req, res) => {
+//   const {resourcesType} = req.query
+//   console.log(resourcesType)
+//   connection.query(
+//     "SELECT * FROM `resources`",
+//     function (err, results, fields) {
+//       res.send(results);
+//     }
+//   );
+// });
 
 app.get(`/resources/:id`, (req, res) => {
   const { id } = req.params;
@@ -49,9 +51,9 @@ app.get(`/resources/:id`, (req, res) => {
   connection.query(
     "SELECT * FROM `resources_information` WHERE `resource_id` = ?",
     [id],
-    function (err, results, fields) {
+    function (err, results) {
       console.log(err);
-      res.send(results);
+      res.json(results);
     }
   );
 });
