@@ -52,6 +52,45 @@ app.get(`/resources`, (req, res) => {
   );
 });
 
+app.get(`/posts/:id`, (req, res) => {
+  const { id } = req.params;
+
+  connection.query(
+    "SELECT * FROM `posts` WHERE `id` = ?",
+    // "SELECT * FROM `resources_information` WHERE `resource_id` = ?",
+    [id],
+    function (err, results) {
+      if (results && results.length === 1) {
+        res.json(results[0]);
+      } else {
+        res.json({});
+      }
+    }
+  );
+});
+
+app.get(`/posts`, (req, res) => {
+  connection.query(
+    "SELECT * FROM `posts`",
+
+    function (err, results) {
+      console.log(err);
+      res.json(results);
+    }
+  );
+});
+
+app.get(`/testimonials`, (req, res) => {
+  connection.query(
+    "SELECT * FROM `testimonials`",
+
+    function (err, results) {
+      console.log(err);
+      res.json(results);
+    }
+  );
+});
+
 app.listen(port, function () {
   console.log("Example app listening on port " + port + "!");
 });
