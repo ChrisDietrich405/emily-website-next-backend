@@ -50,8 +50,9 @@ app.get(`/resources/:id`, (req, res) => {
 
   connection.query(
     "SELECT * FROM `resources` WHERE `id` = ?",
-    // "SELECT * FROM `resources_information` WHERE `resource_id` = ?",
     [id],
+    // "SELECT * FROM `resources_information` WHERE `resource_id` = ?",
+
     function (err, results) {
       console.log(err);
       res.json(results);
